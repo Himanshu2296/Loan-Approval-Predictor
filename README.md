@@ -1,3 +1,13 @@
+## Live Demo
+
+Try the deployed Streamlit application here:
+
+[Loan Approval Predictor](https://loan-approval-predictor-beiogrjbzfestggq3nuahy.streamlit.app/)
+
+## Application Preview
+
+![Loan Approval Predictor](screenshots/loan-predictor.png)
+
 # Loan Approval Predictor
 
 A machine learning application that predicts whether a loan application is likely to be approved based on applicant information.
