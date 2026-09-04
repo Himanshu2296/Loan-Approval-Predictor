@@ -18,11 +18,11 @@ st.divider()
 
 st.header("Applicant Information")
 
-income_monthly = st.number_input("Monthly Income", min_value=0.0, value=100.0)
+income_monthly = st.number_input("Monthly Income", min_value=0.0, value=100.0, step=1.0)
 
-credit_score = st.number_input("Credit Score",min_value=0,max_value=900, value=700)
+credit_score = st.number_input("Credit Score",min_value=0,max_value=900, value=700, step=1)
 
-employment_years = st.number_input("Employment Years",min_value=0.0,value=5.0)
+employment_years = st.number_input("Employment Years",min_value=0.0,value=5.0, step=0.5)
 
 st.header("Loan Information")
 
@@ -35,59 +35,68 @@ prior_defaults = st.number_input("Prior Defaults",min_value=0,value=0,step=1)
 st.divider()
 
 if st.button("Predict Loan Approval", use_container_width=True):
-    applicant = pd.DataFrame([{
-        "income_monthly": income_monthly,
-        "credit_score": credit_score,
-        "debt_to_income": debt_to_income,
-        "employment_years": employment_years,
-        "loan_amount": loan_amount,
-        "prior_defaults": prior_defaults
-    }])
 
-    prediction = model.predict(applicant)[0]
+    if income_monthly <= 0:
+        st.error("Monthly income must be greater than 0.")
 
-    probabilities = model.predict_proba(applicant)[0]
+    elif loan_amount <= 0:
+        st.error("Loan amount must be greater than 0.")
 
-    approval_probability = probabilities[1] * 100
-    rejection_probability = probabilities[0] * 100
-
-    st.subheader("Prediction Result")
-
-    if prediction == 1:
-        st.success("Loan Approved")
     else:
-        st.error("Loan Not Approved")
 
-    st.write(f"Approval Probability: {approval_probability:.2f}%")
+        applicant = pd.DataFrame([{
+            "income_monthly": income_monthly,
+            "credit_score": credit_score,
+            "debt_to_income": debt_to_income,
+            "employment_years": employment_years,
+            "loan_amount": loan_amount,
+            "prior_defaults": prior_defaults
+        }])
 
-    st.progress(int(approval_probability))
+        prediction = model.predict(applicant)[0]
 
-    st.write(f"Rejection Probability: {rejection_probability:.2f}%")
+        probabilities = model.predict_proba(applicant)[0]
 
-    st.divider()
+        approval_probability = probabilities[1] * 100
+        rejection_probability = probabilities[0] * 100
 
-    st.header("Model Performance")
+        st.subheader("Prediction Result")
 
-    col1, col2 = st.columns(2)
+        if prediction == 1:
+            st.success("Loan Approved")
+        else:
+            st.error("Loan Not Approved")
 
-    with col1:
-        st.metric("Accuracy", f"{accuracy * 100:.1f}%")
-        st.metric("Precision", f"{precision * 100:.1f}%")
+        st.write(f"Approval Probability: {approval_probability:.2f}%")
 
-    with col2:
-        st.metric("Recall", f"{recall * 100:.1f}%")
-        st.metric("F1 Score", f"{f1 * 100:.1f}%")
+        st.progress(int(approval_probability))
 
-    st.divider()
+        st.write(f"Rejection Probability: {rejection_probability:.2f}%")
 
-    st.header("Confusion Matrix")
+        st.divider()
 
-    st.write("The confusion matrix shows how many loan applications were classified correctly and incorrectly")
+        st.header("Model Performance")
 
-    st.dataframe(
-        pd.DataFrame(
-            cm,
-            index=["Actual Not Approved", "Actual Approved"],
-            columns=["Predicted Not approved", "Predicted Approved"]
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.metric("Accuracy", f"{accuracy * 100:.1f}%")
+            st.metric("Precision", f"{precision * 100:.1f}%")
+
+        with col2:
+            st.metric("Recall", f"{recall * 100:.1f}%")
+            st.metric("F1 Score", f"{f1 * 100:.1f}%")
+
+        st.divider()
+
+        st.header("Confusion Matrix")
+
+        st.write("The confusion matrix shows how many loan applications were classified correctly and incorrectly")
+
+        st.dataframe(
+            pd.DataFrame(
+                cm,
+                index=["Actual Not Approved", "Actual Approved"],
+                columns=["Predicted Not approved", "Predicted Approved"]
+            )
         )
-    )
