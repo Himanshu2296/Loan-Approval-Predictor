@@ -1,5 +1,4 @@
 import pandas as pd
-import joblib
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -9,10 +8,10 @@ from sklearn.metrics import accuracy_score
 
 df = pd.read_csv("data/loan.csv")
 
-x = df.drop("target",axis=1)
+x = df.drop("target", axis=1)
 y = df["target"]
 
-x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=0.2, random_state=42, stratify=y)
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.2,random_state=42,stratify=y)
 
 models = {
     "Logistic Regression": LogisticRegression(max_iter=1000),
@@ -20,25 +19,9 @@ models = {
     "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42)
 }
 
-best_model = None
-best_accuracy = 0
-best_model_name = ""
-
 for name, model in models.items():
     model.fit(x_train, y_train)
     y_pred = model.predict(x_test)
     accuracy = accuracy_score(y_test, y_pred)
 
     print(f"{name}: {accuracy:.3f}")
-
-    if (accuracy > best_accuracy):
-        best_accuracy = accuracy
-        best_model = model
-        best_model_name = name
-
-print("\n===== Best Model =====")
-print("Model:", best_model_name)
-print("Accuracy:", round(best_accuracy, 3))
-
-joblib.dump(best_model, "loan_model.joblib")
-print("\nBest model saved as loan_model.joblib")

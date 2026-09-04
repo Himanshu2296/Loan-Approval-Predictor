@@ -1,10 +1,17 @@
 # Loan Approval Predictor
 
-A simple machine learning project that predicts whether a loan application is likely to be approved based on applicant information.
+A machine learning application that predicts whether a loan application is likely to be approved based on applicant information.
+
+The project has two versions:
+
+* **Phase 1:** Terminal-based ML application
+* **Phase 2:** Streamlit web application
 
 ## Objective
 
-Build a machine learning model that predicts loan approval using:
+Build a machine learning system that predicts loan approval using applicant financial and credit information.
+
+## Features
 
 * Monthly income
 * Credit score
@@ -13,25 +20,54 @@ Build a machine learning model that predicts loan approval using:
 * Loan amount
 * Prior defaults
 
-## Machine Learning Model
+## Machine Learning
 
-The project uses:
+The project compares three classification algorithms:
 
-**Logistic Regression**
+1. Logistic Regression
+2. Decision Tree
+3. Random Forest
 
-## Project Architecture
+Based on the current dataset:
 
-```text
-Loan Applicant
-      ↓
-Applicant Information
-      ↓
-Logistic Regression Model
-      ↓
-Prediction
-      ↓
-Loan Approved / Loan Not Approved
+| Model               | Accuracy |
+| ------------------- | -------: |
+| Logistic Regression |    70.5% |
+| Decision Tree       |    57.0% |
+| Random Forest       |    67.5% |
+
+**Selected model: Logistic Regression**
+
+## Phase 1 — Terminal Application
+
+The terminal version allows users to enter applicant information and receive a loan approval prediction.
+
+Run:
+
+```bash
+python predict.py
 ```
+
+## Phase 2 — Streamlit Application
+
+The advanced version provides a web interface for entering applicant information and displaying:
+
+* Loan prediction
+* Approval probability
+* Rejection probability
+* Accuracy
+* Precision
+* Recall
+* F1-score
+* Confusion matrix
+
+Run:
+
+```bash
+streamlit run app.py
+```
+
+The application will open in your browser.
 
 ## Project Structure
 
@@ -44,6 +80,10 @@ Loan-Approval-Predictor/
 ├── inspect_data.py
 ├── train.py
 ├── predict.py
+├── evaluate.py
+├── compare_models.py
+├── utils.py
+├── app.py
 ├── loan_model.joblib
 ├── requirements.txt
 ├── .gitignore
@@ -55,7 +95,7 @@ Loan-Approval-Predictor/
 Clone the repository:
 
 ```bash
-git clone https://github.com/himanshu2296/Loan-Approval-Predictor.git
+git clone https://github.com/Himanshu2296/Loan-Approval-Predictor.git
 ```
 
 Move into the project:
@@ -64,7 +104,7 @@ Move into the project:
 cd Loan-Approval-Predictor
 ```
 
-Install the required libraries:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -72,47 +112,35 @@ pip install -r requirements.txt
 
 ## Train the Model
 
-Run:
-
 ```bash
 python train.py
 ```
 
-The trained model will be saved as:
+The best-performing model will be saved as:
 
 ```text
 loan_model.joblib
 ```
 
-## Make a Prediction
-
-Run:
+## Evaluate the Model
 
 ```bash
-python predict.py
+python evaluate.py
 ```
 
-Enter the applicant's information when prompted.
+This calculates:
 
-The program will return:
+* Accuracy
+* Precision
+* Recall
+* F1-score
+* Confusion matrix
 
-```text
-Loan Approved
+## Run the Streamlit Application
+
+```bash
+streamlit run app.py
 ```
-
-or:
-
-```text
-Loan Not Approved
-```
-
-## Model Performance
-
-The initial Logistic Regression model achieved:
-
-**Accuracy: 70.5%**
-
-This is a baseline model. The advanced version will improve the preprocessing, model evaluation, user interface, and overall application.
 
 ## Technologies
 
@@ -121,20 +149,19 @@ This is a baseline model. The advanced version will improve the preprocessing, m
 * Scikit-learn
 * Logistic Regression
 * Joblib
+* Streamlit
 * Git
 * GitHub
 
 ## Future Improvements
 
-* Feature scaling
-* Model comparison
+* Hyperparameter tuning
 * Cross-validation
-* Precision, recall, and F1-score
-* Confusion matrix
-* Prediction probability
-* Streamlit web application
-* Model improvement
-* Online deployment
+* Better feature preprocessing
+* More extensive model comparison
+* Explainable AI
+* Improved UI/UX
+* Cloud deployment
 
 ## Disclaimer
 
