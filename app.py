@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import joblib
 
+if "prediction_history" not in st.session_state:
+    st.session_state.prediction_history = []
+
 from utils import evaluate_model
 
 model = joblib.load("loan_model.joblib")
@@ -59,6 +62,15 @@ if st.button("Predict Loan Approval", use_container_width=True):
 
         approval_probability = probabilities[1] * 100
         rejection_probability = probabilities[0] * 100
+
+        prediction_result = ("Approved" if prediction == 1 else "Not Approved")
+
+        st.session_state.prediction_history.append({
+            "Credit Score": credit_score,
+            "Loan Amount": loan_amount,
+            "Prediction": prediction_result,
+            "Approval Probability": f"{approval_probability:.2f}%"
+        })
 
         st.subheader("Prediction Result")
 
@@ -123,3 +135,15 @@ if st.button("Predict Loan Approval", use_container_width=True):
                 f"The Logistic Regression model achieved an accuracy "
                 f"of {accuracy * 100:.1f}% on the test dataset."
             )
+
+            st.divider()
+
+            st.header("Prediction History")
+
+            if st.session_state.prediction_history:
+
+                history_df = pd.DataFrame(st.session_state.prediction_history)
+                st.dataframe()
+
+            else:
+                st.info("No predictions made yet.")
