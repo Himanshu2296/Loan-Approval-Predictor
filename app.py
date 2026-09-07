@@ -103,23 +103,23 @@ if st.button("Predict Loan Approval", use_container_width=True):
 
         st.divider()
 
-        st.header("About the Model")
-        st.write("This application uses a Logistic Regression model to predict whether a loan application is likely to be approved.")
+        with st.expander("About the Model"):
+            st.write("This application uses a Logistic Regression model to predict whether a loan application is likely to be approved.")
 
-        st.write("Input Features")
+            st.write("Input Features")
 
-        st.markdown("""
-        - Monthly Income: Applicant's monthly income.
-        - Credit Score: Applicant's credit score.
-        - Debt to Income: Ratio representing the applicant's debt relative to income.
-        - Employment Years: Number of years the applicant has been employed.
-        - Loan Amount: Amount of loan requested.
-        - Prior Defaults: Number of previous loan defaults.
-        """)
+            st.markdown("""
+            - Monthly Income: Applicant's monthly income.
+            - Credit Score: Applicant's credit score.
+            - Debt to Income: Ratio representing the applicant's debt relative to income.
+            - Employment Years: Number of years the applicant has been employed.
+            - Loan Amount: Amount of loan requested.
+            - Prior Defaults: Number of previous loan defaults.
+            """)
 
-        st.write("Model Performance")
+            st.write("Model Performance")
 
-        st.write(
-            f"The Logistic Regression model achieved an accuracy "
-            f"of {accuracy * 100:.1f}% on the test dataset."
-        )
+            st.write(
+                f"The Logistic Regression model achieved an accuracy "
+                f"of {accuracy * 100:.1f}% on the test dataset."
+            )
