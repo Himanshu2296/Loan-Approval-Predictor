@@ -115,6 +115,28 @@ if st.button("Predict Loan Approval", use_container_width=True):
 
         st.divider()
 
+        st.header("Prediction History")
+
+        if st.session_state.prediction_history:
+
+            history_df = pd.DataFrame(
+                st.session_state.prediction_history
+            )
+
+            st.dataframe(
+                history_df,
+                use_container_width=True
+            )
+
+            if st.button("Clear Prediction History"):
+                st.session_state.prediction_history = []
+                st.rerun()
+
+        else:
+            st.info("No predictions made yet.")
+
+        st.divider()
+
         with st.expander("About the Model"):
             st.write("This application uses a Logistic Regression model to predict whether a loan application is likely to be approved.")
 
@@ -136,14 +158,4 @@ if st.button("Predict Loan Approval", use_container_width=True):
                 f"of {accuracy * 100:.1f}% on the test dataset."
             )
 
-            st.divider()
-
-            st.header("Prediction History")
-
-            if st.session_state.prediction_history:
-
-                history_df = pd.DataFrame(st.session_state.prediction_history)
-                st.dataframe()
-
-            else:
-                st.info("No predictions made yet.")
+          
